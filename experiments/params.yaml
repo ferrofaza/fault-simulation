@@ -1,0 +1,42 @@
+# Parameters for one simulation run.
+# config.py reads this, validates it, and hands a frozen Config to the rest
+# of the code. Edit values here; never hardcode them in the simulator.
+
+# --- lattice ---
+L: 128            # lattice size (use 64/128/256/512 for finite-size scaling)
+seed: 0           # RNG seed; fixes thresholds and initial field reproducibly
+
+# --- primary phase-diagram parameters (the three swept axes) ---
+beta: 2.0                 # heterogeneity correlation: 0 = white noise, larger = smoother
+epsilon_boundary: 1.0     # segment leakage in [0,1]; 1 = unsegmented, 0 = decoupled
+epsilon_dissipation: 0.1  # fraction of stress dissipated per redistribution, in [0,1)
+
+# --- threshold field (sigma_th) ---
+sigma_th_min: 1.0                  # must be > 0
+sigma_th_max: 2.0
+threshold_distribution: correlated    # uniform | gradient | correlated | checkerboard | file
+threshold_file: 
+
+# --- residual stress (sigma_res) ---
+sigma_res: 0.0                  # uniform value; must be < sigma_th_min
+heterogeneous_residual: false   # true enables the correlated-residual sensitivity option
+
+# --- kernel ---
+r0: 1.0                # short-distance regularization (one lattice spacing)
+kernel_kind: isotropic # isotropic | dipole
+theta0: 0.0            # slip direction (radians); used only by the dipole kernel
+
+# --- segmentation ---
+n_segments: 1          # 1 = unsegmented; 3 for the along-strike segmented fault
+
+# --- boundary condition ---
+boundary_condition: all_open
+# all_open | top_reflective | top_bottom_reflective | all_closed | periodic
+
+# --- run control ---
+n_avalanches: 100000   # total avalanches to record
+burn_in: 10000         # leading avalanches discarded before statistics
+
+# --- output ---
+output_dir: data/raw
+snapshot_every: 1      # save a stress-field snapshot every N avalanches
