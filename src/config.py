@@ -29,7 +29,7 @@ class Config:
     L: int
     seed: int
     # primary phase-diagram parameters (the three swept axes)
-    beta: float
+    beta_str: float
     epsilon_boundary: float
     epsilon_dissipation: float
     # threshold field
@@ -84,8 +84,8 @@ class Config:
             raise ValueError(
                 f"epsilon_dissipation must be in [0, 1), got {self.epsilon_dissipation}"
             )
-        if self.beta < 0:
-            raise ValueError(f"beta must be >= 0, got {self.beta}")
+        if self.beta_str < 0:
+            raise ValueError(f"beta_str must be >= 0, got {self.beta_str}")
         if self.kernel_kind not in KERNEL_KINDS:
             raise ValueError(
                 f"kernel_kind must be one of {sorted(KERNEL_KINDS)}, "

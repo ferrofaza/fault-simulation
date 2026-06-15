@@ -2,9 +2,9 @@
 
 Generates the failure-threshold field sigma_th (spec 5.1):
 
-  1. Build a Gaussian random field with power spectrum P(k) ~ k^-beta by
-     spectral filtering of white noise. beta = 0 is white noise (uncorrelated);
-     larger beta is smoother (asperity-scale correlations).
+  1. Build a Gaussian random field with power spectrum P(k) ~ k^-beta_str by
+     spectral filtering of white noise. beta_str = 0 is white noise (uncorrelated);
+     larger beta_str is smoother (asperity-scale correlations).
   2. Rank-order map that field onto the target threshold distribution,
      truncated to [sigma_th_min, sigma_th_max], fixing the marginal
      independently of the spatial structure.
@@ -19,8 +19,8 @@ import numpy as np
 from .config import Config
 
 
-def gaussian_random_field(L: int, beta: float, rng: np.random.Generator) -> np.ndarray:
-    """Real Gaussian field on an L x L grid with power spectrum ~ k^-beta.
+def gaussian_random_field(L: int, beta_str: float, rng: np.random.Generator) -> np.ndarray:
+    """Real Gaussian field on an L x L grid with power spectrum ~ k^-beta_str.
 
     Zero mean (DC mode removed); the marginal is fixed later by the rank map,
     so only the spatial structure matters here.
@@ -33,7 +33,7 @@ def gaussian_random_field(L: int, beta: float, rng: np.random.Generator) -> np.n
     k = np.sqrt(KX ** 2 + KY ** 2)
     k[0, 0] = 1.0  # placeholder; avoids divide-by-zero at the DC mode
 
-    amplitude = k ** (-beta / 2.0)
+    amplitude = k ** (-beta_str / 2.0)
     amplitude[0, 0] = 0.0  # remove the mean (DC mode)
 
     return np.fft.ifft2(noise_k * amplitude).real
@@ -62,7 +62,7 @@ def threshold_field(cfg: Config, rng: np.random.Generator) -> np.ndarray:
         return rng.uniform(cfg.sigma_th_min, cfg.sigma_th_max, (cfg.L, cfg.L))
 
     if cfg.threshold_distribution == "correlated":
-        field = gaussian_random_field(cfg.L, cfg.beta, rng)
+        field = gaussian_random_field(cfg.L, cfg.beta_str, rng)
         return _rank_order_map(field, target)
 
     if cfg.threshold_distribution == "gradient":

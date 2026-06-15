@@ -7,7 +7,7 @@ L: 128            # lattice size (use 64/128/256/512 for finite-size scaling)
 seed: 0           # RNG seed; fixes thresholds and initial field reproducibly
 
 # --- primary phase-diagram parameters (the three swept axes) ---
-beta: 2.0                 # heterogeneity correlation: 0 = white noise, larger = smoother
+beta_str: 2.0                 # heterogeneity correlation: 0 = white noise, larger = smoother
 epsilon_boundary: 1.0     # segment leakage in [0,1]; 1 = unsegmented, 0 = decoupled
 epsilon_dissipation: 0.1  # fraction of stress dissipated per redistribution, in [0,1)
 
