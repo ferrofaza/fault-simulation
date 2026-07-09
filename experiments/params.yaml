@@ -22,7 +22,7 @@ sigma_res: 0.0                  # uniform value; must be < sigma_th_min
 heterogeneous_residual: false   # true enables the correlated-residual sensitivity option
 
 # --- kernel ---
-r0: 1.0                # short-distance regularization (one lattice spacing)
+r0: 0.1                # short-distance regularization (one lattice spacing)
 kernel_kind: isotropic # isotropic | dipole
 theta0: 0.0            # slip direction (radians); used only by the dipole kernel
 
